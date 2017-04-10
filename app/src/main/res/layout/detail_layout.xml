@@ -2,26 +2,120 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+
+
+
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/stName"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="hi"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stExchange"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lowst"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/hightst"/>
+
+        android:background="@color/cardview_light_background"
+        android:id="@+id/cv">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+
+
+          >
+          <TextView
+              android:id="@+id/stName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:visibility="visible"
+              android:textAllCaps="true"
+              android:textColor="@color/material_blue_500"
+              android:textSize="20sp"
+              android:text="goog"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/stName"
+              android:textSize="20sp"
+              android:textColor="@color/material_blue_500"
+              android:text="exchange"
+              android:id="@+id/stExchange"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@android:color/black"
+              android:textSize="16sp"
+              android:text="Day Low:"
+              android:layout_below="@+id/stName"
+              android:layout_toLeftOf="@+id/lowst"/>
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textColor="@color/material_blue_500"
+              android:textSize="16sp"
+              android:text="daylow"
+              android:layout_below="@+id/stName"
+
+
+              android:id="@+id/lowst"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@android:color/black"
+              android:text="Day High:"
+              android:textSize="16sp"
+              android:layout_below="@+id/lowst"
+              android:layout_toLeftOf="@+id/hightst"/>
+          <TextView
+              android:textColor="@color/material_blue_500"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:layout_below="@+id/lowst"
+              android:textSize="16sp"
+              android:text="dayhigh"
+              android:id="@+id/hightst"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/stock_pri"
+              android:textSize="20sp"
+              android:textColor="@color/material_blue_500"
+
+
+
+              android:layout_alignParentLeft="true"
+              android:text="20sgd"
+              android:layout_below="@+id/stExchange"/>
+
+
+          <TextView
+              android:id="@+id/abs_change"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@+id/stock_pri"
+
+              android:layout_below="@+id/stExchange"
+              android:layout_marginLeft="5dp"
+
+
+              android:text="-20"
+
+              android:textColor="@android:color/white"
+              android:textSize="20sp"
+              android:visibility="visible" />
+
+
+      </RelativeLayout>
+
+
+
+
+</android.support.v7.widget.CardView>
+
+
+
+
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"

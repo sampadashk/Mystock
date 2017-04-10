@@ -1,0 +1,14 @@
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/stock_widget"
+
+
+    android:minHeight="@dimen/widget_minheight"
+    android:previewImage="@drawable/preview"
+    android:minResizeHeight="@dimen/widget_min_resizeheight"
+    android:minResizeWidth="@dimen/widget_min_resizewidth"
+    android:minWidth="@dimen/widget_minwidth"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen">
+</appwidget-provider>

@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         unregisterReceiver(MyReceiver);
         super.onDestroy();
     }
-
+///This method belongs to SwipeRefreshLayout.OnRefreshListener.So whenever refresh is done,this method is called automatically
     @Override
     public void onRefresh() {
 
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setVisibility(View.GONE);
         }
     }
+
 
     public void button(@SuppressWarnings("UnusedParameters") View view) {
         new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");

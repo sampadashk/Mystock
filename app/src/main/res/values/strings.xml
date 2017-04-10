@@ -28,6 +28,8 @@
     <string name="dialog_hint">Symbol (e.g. GOOG)</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_add">Add</string>
+    <string name="widget_label">Stock Details</string>
+    <string name="detail_contentdesc">Stock details of %s</string>
 
     <string name="error_no_network">No network connectivity! Will load stock cursor when the network is available.</string>
     <string name="error_no_stocks">No stocks added! Hit the floating action button to add one.</string>
@@ -39,6 +41,9 @@
     <string name="server_down">No information available.The server is not returning data</string>
     <string name="load_data">Data Loading! Please wait</string>
     <string name="new_stock">Add new stock</string>
+    <string name="widget_desc">Stock hawk widget</string>
+    <string name="increased_cd">Stock value increased by %s</string>
+    <string name="decreased_cd">Stock value decreased by %s</string>
 
 
 </resources>

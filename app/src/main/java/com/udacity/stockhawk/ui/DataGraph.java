@@ -2,6 +2,7 @@ package com.udacity.stockhawk.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -28,9 +29,12 @@ import com.udacity.stockhawk.XAxisDateFormatter;
 import com.udacity.stockhawk.YAxisPriceFormatter;
 import com.udacity.stockhawk.data.Contract;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
-import static android.R.color.white;
+//import static android.R.color.Color.WHITE;
 
 /**
  * Created by KV on 28/3/17.
@@ -44,6 +48,8 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     TextView stex;
     TextView lowst;
     TextView highst;
+    TextView stckprice;
+    TextView abschng;
     Uri stockUri;
     LineChart lineChart;
     String dateFormat;
@@ -56,6 +62,8 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
         lowst=(TextView) findViewById(R.id.lowst);
         highst=(TextView) findViewById(R.id.hightst);
         lineChart=(LineChart) findViewById(R.id.chart);
+        stckprice=(TextView) findViewById(R.id.stock_pri);
+        abschng=(TextView) findViewById(R.id.abs_change);
         
 
         Intent intent=getIntent();
@@ -93,20 +101,39 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()) {
+
             String stockName = data.getString(Contract.Quote.POSITION_STOCK_NAME);
+            getWindow().getDecorView().setContentDescription(
+                    String.format(getString(R.string.detail_contentdesc), stockName));
 
             String stockExchange = data.getString(Contract.Quote.POSITION_STOCK_EXCHANGE);
-            Float absolutionChange = data.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
+            Float absoluteChange = data.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
             Float stockPrice = data.getFloat(Contract.Quote.POSITION_PRICE);
 
             Float dayLowest = data.getFloat(Contract.Quote.POSITION_DAY_LOW);
             Float dayHighest = data.getFloat(Contract.Quote.POSITION_DAY_HIGH);
             String his = data.getString(Contract.Quote.POSITION_DAY_HISTORY);
+            //This DecimalFomat CurrencyInstance is for putting currency sign before price
+            DecimalFormat currencyInstance = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.getDefault());
+            currencyInstance.setMaximumFractionDigits(2);
+            currencyInstance.setMinimumFractionDigits(2);
+
+
             setLineChart(his);
-            lowst.setText(dayLowest.toString());
-            highst.setText(dayHighest.toString());
+            lowst.setText(currencyInstance.format(dayLowest));
+            highst.setText(currencyInstance.format(dayHighest));
             stex.setText(stockExchange);
             tv.setText(stockName);
+            stckprice.setText(currencyInstance.format(stockPrice));
+            abschng.setText(currencyInstance.format(absoluteChange));
+            if(absoluteChange>0)
+            {
+                abschng.setBackgroundResource(R.drawable.percent_change_pill_green);
+                abschng.setContentDescription (String.format(getString(R.string.increased_cd), abschng.getText()));
+            }
+            else
+                abschng.setBackgroundResource(R.drawable.percent_change_pill_red);
+            abschng.setContentDescription (String.format(getString(R.string.decreased_cd), abschng.getText()));
         }
     }
     private void setLineChart(String history) {
@@ -121,11 +148,11 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
 
        // Timber.d(dataPairs.toString());
         //This is giving result like this :[Entry, x: 0.0 y: 49.87, Entry, x: 2.33281946E9 y: 53.0,
-        dataSet.setColor(white);
+        dataSet.setColor(Color.WHITE);
         dataSet.setLineWidth(2f);
         dataSet.setDrawHighlightIndicators(false);
-        dataSet.setCircleColor(white);
-        dataSet.setHighLightColor(white);
+        dataSet.setCircleColor(Color.WHITE);
+        dataSet.setHighLightColor(Color.WHITE);
         dataSet.setDrawValues(false);
 
         LineData lineData = new LineData(dataSet);
@@ -136,9 +163,9 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
         xAxis.setValueFormatter(new XAxisDateFormatter(dateFormat, referenceTime));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-        xAxis.setAxisLineColor(white);
+        xAxis.setAxisLineColor(Color.WHITE);
         xAxis.setAxisLineWidth(1.5f);
-        xAxis.setTextColor(white);
+        xAxis.setTextColor(Color.WHITE);
         xAxis.setTextSize(12f);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -150,9 +177,9 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
         yAxis.setValueFormatter(new YAxisPriceFormatter());
         yAxis.setDrawGridLines(false);
         yAxis.setDrawAxisLine(true);
-        yAxis.setAxisLineColor(white);
+        yAxis.setAxisLineColor(Color.WHITE);
         yAxis.setAxisLineWidth(1.5f);
-        yAxis.setTextColor(white);
+        yAxis.setTextColor(Color.WHITE);
         yAxis.setTextSize(12f);
 
 
