@@ -112,20 +112,22 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
 
             Float dayLowest = data.getFloat(Contract.Quote.POSITION_DAY_LOW);
             Float dayHighest = data.getFloat(Contract.Quote.POSITION_DAY_HIGH);
-            String his = data.getString(Contract.Quote.POSITION_DAY_HISTORY);
+            String his = data.getString(Contract.Quote.POSITION_MONTH_HISTORY);
+            setLineChart(his);
             //This DecimalFomat CurrencyInstance is for putting currency sign before price
             DecimalFormat currencyInstance = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.getDefault());
             currencyInstance.setMaximumFractionDigits(2);
             currencyInstance.setMinimumFractionDigits(2);
 
 
-            setLineChart(his);
+
             lowst.setText(currencyInstance.format(dayLowest));
             highst.setText(currencyInstance.format(dayHighest));
             stex.setText(stockExchange);
             tv.setText(stockName);
             stckprice.setText(currencyInstance.format(stockPrice));
             abschng.setText(currencyInstance.format(absoluteChange));
+            Log.d("chkabs",currencyInstance.format(absoluteChange));
             if(absoluteChange>0)
             {
                 abschng.setBackgroundResource(R.drawable.percent_change_pill_green);
@@ -134,6 +136,7 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
             else
                 abschng.setBackgroundResource(R.drawable.percent_change_pill_red);
             abschng.setContentDescription (String.format(getString(R.string.decreased_cd), abschng.getText()));
+
         }
     }
     private void setLineChart(String history) {

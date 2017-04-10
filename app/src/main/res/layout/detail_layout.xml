@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
-
 
 
     android:orientation="vertical">
@@ -13,11 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+
         android:background="@color/cardview_light_background"
+
         android:id="@+id/cv">
-      <RelativeLayout
+      <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:gravity="center_horizontal"
+          android:paddingStart="8dp"
+          android:paddingEnd="8dp"
+
+
 
 
           >
@@ -33,48 +41,47 @@
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@+id/stName"
+
               android:textSize="20sp"
               android:textColor="@color/material_blue_500"
               android:text="exchange"
               android:id="@+id/stExchange"/>
-          <TextView
-              android:layout_width="wrap_content"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:textColor="@android:color/black"
-              android:textSize="16sp"
-              android:text="Day Low:"
-              android:layout_below="@+id/stName"
-              android:layout_toLeftOf="@+id/lowst"/>
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentRight="true"
-              android:textColor="@color/material_blue_500"
-              android:textSize="16sp"
-              android:text="daylow"
-              android:layout_below="@+id/stName"
+              android:orientation="horizontal"
+              android:gravity="end"
 
 
-              android:id="@+id/lowst"/>
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textColor="@android:color/black"
-              android:text="Day High:"
-              android:textSize="16sp"
-              android:layout_below="@+id/lowst"
-              android:layout_toLeftOf="@+id/hightst"/>
-          <TextView
-              android:textColor="@color/material_blue_500"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentRight="true"
-              android:layout_below="@+id/lowst"
-              android:textSize="16sp"
-              android:text="dayhigh"
-              android:id="@+id/hightst"/>
+              >
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@android:color/black"
+                  android:textSize="16sp"
+                  android:paddingStart="5dp"
+                  android:paddingEnd="5dp"
+                  android:text="Day Low:"
+
+                />
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+
+                  android:textColor="@color/material_blue_500"
+                  android:textSize="16sp"
+                  android:text="daylow"
+
+                  android:id="@+id/lowst"/>
+          </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -84,19 +91,19 @@
 
 
 
-              android:layout_alignParentLeft="true"
+
               android:text="20sgd"
-              android:layout_below="@+id/stExchange"/>
+            />
 
 
           <TextView
               android:id="@+id/abs_change"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/stock_pri"
 
-              android:layout_below="@+id/stExchange"
               android:layout_marginLeft="5dp"
+              android:paddingStart="5dp"
+              android:paddingEnd="5dp"
 
 
               android:text="-20"
@@ -104,14 +111,45 @@
               android:textColor="@android:color/white"
               android:textSize="20sp"
               android:visibility="visible" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="23"
+                android:visibility="invisible"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Day High:"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:textColor="@color/material_blue_500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="16sp"
+                android:text="dayhigh"
+                android:id="@+id/hightst"/>
+
+ </LinearLayout>
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="5dp"/>
 
 
-      </RelativeLayout>
+
+
+      </LinearLayout>
 
 
 
 
 </android.support.v7.widget.CardView>
+
 
 
 
