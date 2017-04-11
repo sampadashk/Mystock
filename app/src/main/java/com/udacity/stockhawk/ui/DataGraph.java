@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -44,6 +45,7 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     @SuppressWarnings("WeakerAccess")
     private static int LOADER_ID = 0;
 
+
     TextView tv;
     TextView stex;
     TextView lowst;
@@ -53,34 +55,43 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     Uri stockUri;
     LineChart lineChart;
     String dateFormat;
-    public void onCreate(Bundle savedInstanceState)
-    {
+    TabLayout tabLayout;
+
+
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_layout);
-        tv=(TextView)findViewById(R.id.stName);
-        stex=(TextView) findViewById(R.id.stExchange);
-        lowst=(TextView) findViewById(R.id.lowst);
-        highst=(TextView) findViewById(R.id.hightst);
-        lineChart=(LineChart) findViewById(R.id.chart);
-        stckprice=(TextView) findViewById(R.id.stock_pri);
-        abschng=(TextView) findViewById(R.id.abs_change);
-        
-
-        Intent intent=getIntent();
-        stockUri=intent.getData();
-        getSupportLoaderManager().initLoader(LOADER_ID,null,this);
-        dateFormat="dd";
+        tv = (TextView) findViewById(R.id.stName);
+        stex = (TextView) findViewById(R.id.stExchange);
+        lowst = (TextView) findViewById(R.id.lowst);
+        highst = (TextView) findViewById(R.id.hightst);
+        lineChart = (LineChart) findViewById(R.id.chart);
+        stckprice = (TextView) findViewById(R.id.stock_pri);
+        abschng = (TextView) findViewById(R.id.abs_change);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
 
+       tabLayout.addTab(tabLayout.newTab().setText("WEEKLY"));
+        tabLayout.addTab(tabLayout.newTab().setText("MONTHLY"));
+        tabLayout.addTab(tabLayout.newTab().setText("YEARLY"));
 
 
-
-       // ButterKnife.bind(this);
+      //  tabLayout.setupWithViewPager(viewPager, true);
 
 
 
+        Intent intent = getIntent();
+        stockUri = intent.getData();
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        //setViewPager();
+        dateFormat = "dd";
 
+
+        // ButterKnife.bind(this);
     }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -99,8 +110,10 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
 
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
         if (data.moveToFirst()) {
+           // String tag="WEEKLY";
+
 
             String stockName = data.getString(Contract.Quote.POSITION_STOCK_NAME);
             getWindow().getDecorView().setContentDescription(
@@ -112,13 +125,58 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
 
             Float dayLowest = data.getFloat(Contract.Quote.POSITION_DAY_LOW);
             Float dayHighest = data.getFloat(Contract.Quote.POSITION_DAY_HIGH);
-            String his = data.getString(Contract.Quote.POSITION_MONTH_HISTORY);
+            dateFormat="dd";
+
+            String his=data.getString(Contract.Quote.POSITION_DAY_HISTORY);
             setLineChart(his);
+
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    if(tab.getPosition()==0)
+                    {
+                        dateFormat="dd";
+                        String his=data.getString(Contract.Quote.POSITION_DAY_HISTORY);
+                        setLineChart(his);
+
+
+                    }
+                    else if(tab.getPosition()==1)
+                    {
+                        dateFormat="dd";
+                        String his = data.getString(Contract.Quote.POSITION_MONTH_HISTORY);
+                        setLineChart(his);
+
+
+                    }
+                    else{
+                        dateFormat="yy";
+                        String his = data.getString(Contract.Quote.POSITION_YEAR_HISTORY);
+                        setLineChart(his);
+
+                    }
+
+
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+
+
+
+
             //This DecimalFomat CurrencyInstance is for putting currency sign before price
             DecimalFormat currencyInstance = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.getDefault());
             currencyInstance.setMaximumFractionDigits(2);
             currencyInstance.setMinimumFractionDigits(2);
-
 
 
             lowst.setText(currencyInstance.format(dayLowest));
@@ -127,29 +185,28 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
             tv.setText(stockName);
             stckprice.setText(currencyInstance.format(stockPrice));
             abschng.setText(currencyInstance.format(absoluteChange));
-            Log.d("chkabs",currencyInstance.format(absoluteChange));
-            if(absoluteChange>0)
-            {
+            Log.d("chkabs", currencyInstance.format(absoluteChange));
+            if (absoluteChange > 0) {
                 abschng.setBackgroundResource(R.drawable.percent_change_pill_green);
-                abschng.setContentDescription (String.format(getString(R.string.increased_cd), abschng.getText()));
-            }
-            else
+                abschng.setContentDescription(String.format(getString(R.string.increased_cd), abschng.getText()));
+            } else
                 abschng.setBackgroundResource(R.drawable.percent_change_pill_red);
-            abschng.setContentDescription (String.format(getString(R.string.decreased_cd), abschng.getText()));
+            abschng.setContentDescription(String.format(getString(R.string.decreased_cd), abschng.getText()));
 
         }
     }
+
     private void setLineChart(String history) {
 
         Pair<Float, List<Entry>> result = com.udacity.stockhawk.Parser.getFormattedStockHistory(history);
         List<Entry> dataPairs = result.second;
         Float referenceTime = result.first;
-        Log.d("refch"," "+referenceTime);
+        Log.d("refch", " " + referenceTime);
         LineDataSet dataSet = new LineDataSet(dataPairs, "");
-       // Timber.d(referenceTime.toString());
+        // Timber.d(referenceTime.toString());
         //1.45978556E12
 
-       // Timber.d(dataPairs.toString());
+        // Timber.d(dataPairs.toString());
         //This is giving result like this :[Entry, x: 0.0 y: 49.87, Entry, x: 2.33281946E9 y: 53.0,
         dataSet.setColor(Color.WHITE);
         dataSet.setLineWidth(2f);
@@ -209,6 +266,7 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
         lineChart.animateX(1500, Easing.EasingOption.Linear);
         // TODO: 1/7/2017 Raise issue on MPAndroidChart to add accessibility for chart elements
     }
+
     private Entry getLastButOneData(List<Entry> dataPairs) {
         if (dataPairs.size() > 2) {
             return dataPairs.get(dataPairs.size() - 2);
@@ -218,12 +276,11 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     }
 
 
-
-    
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
 
     }
+
+
 }

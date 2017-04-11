@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportPostponeEnterTransition();
+       // supportPostponeEnterTransition();
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -86,10 +87,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 */
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
+        if(savedInstanceState==null)
+        {
+            QuoteSyncJob.initialize(this);
+            swipeRefreshLayout.setRefreshing(true);
+        }
 
 
-         QuoteSyncJob.initialize(this);
+
+
         getSupportLoaderManager().initLoader(STOCK_LOADER, null, this);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -278,5 +284,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         }
     };
+
+    //TODO rotation problem
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
+    }
 }
 
