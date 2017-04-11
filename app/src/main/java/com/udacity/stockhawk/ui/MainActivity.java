@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -76,16 +75,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         adapter = new StockAdapter(this, this);
         stockRecyclerView.setAdapter(adapter);
         stockRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    /*    stockRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
-                new RecyclerViewItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getBaseContext(), DataGraph.class);
-                        intent.putExtra("POS",position);
-                        startActivity(intent);
-                    }
-                }));
-                */
-
         swipeRefreshLayout.setOnRefreshListener(this);
         if(savedInstanceState==null)
         {
@@ -104,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 return false;
             }
 
+            //To Delete stock
+
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 String symbol = adapter.getSymbolAtPosition(viewHolder.getAdapterPosition());
@@ -111,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
             }
         }).attachToRecyclerView(stockRecyclerView);
+
         registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
 
@@ -285,11 +277,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     };
 
-    //TODO rotation problem
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_main);
-    }
+
 }
 

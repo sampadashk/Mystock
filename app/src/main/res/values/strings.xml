@@ -1,22 +1,22 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
 
-    <string name="pref_stocks_key">stocks</string>
-    <string name="pref_stock_status_key">prefstatus</string>
+    <string name="pref_stocks_key" translatable="false">stocks</string>
+    <string name="pref_stock_status_key" translatable="false">prefstatus</string>
 
 
-    <string name="pref_display_mode_key">displayMode</string>
-    <string name="pref_display_mode_default">@string/pref_display_mode_percentage_key</string>
+    <string name="pref_display_mode_key" translatable="false">displayMode</string>
+    <string name="pref_display_mode_default" translatable="false">@string/pref_display_mode_percentage_key</string>
 
-    <string name="pref_display_mode_absolute_key">absolute</string>
-    <string name="pref_display_mode_percentage_key">percentage</string>
+    <string name="pref_display_mode_absolute_key" translatable="false">absolute</string>
+    <string name="pref_display_mode_percentage_key" translatable="false">percentage</string>
 
-    <string name="default_stocks_yahoo">YHOO</string>
-    <string name="default_stocks_apple">AAPL</string>
-    <string name="default_stocks_microsoft">MSFT</string>
-    <string name="default_stocks_facebook">FB</string>
+    <string name="default_stocks_yahoo" translatable="false">YHOO</string>
+    <string name="default_stocks_apple" translatable="false">AAPL</string>
+    <string name="default_stocks_microsoft" translatable="false">MSFT</string>
+    <string name="default_stocks_facebook" translatable="false">FB</string>
     <!-- Graph related strings-->
     <string name="marker_text">%s<i> on</i> <xliff:g example="5 Jul 2017" id="date">%s</xliff:g></string><!--Ex: - $567 on 5 Jul 2017-->
 
@@ -48,14 +48,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--Generic keys-->
-    <string name="FRAGMENT_KEY" translatable="false">FRAGMENT_DATA_TYPE_KEY</string>
-    <string name="MONTHLY" translatable="false">MONTHLY</string>
-    <string name="WEEKLY" translatable="false">WEEKLY</string>
-    <string name="YEARLY" translatable="false">WEEKLY</string>
 
-    <string name="year_fragment_title">1 YEAR</string>
-    <string name="week_fragment_title">1 WEEK</string>
-    <string name="months_fragment_title">1 MONTH</string>
+
+    <string name="year_title">1 YEAR</string>
+    <string name="week_title">1 WEEK</string>
+    <string name="months_title">1 MONTH</string>
+    <string name="tab_week">Tab 1 week is selected</string>
+    <string name="tab_month">Tab 1 month is selected</string>
+    <string name="tab_year">Tab 1 year is selected</string>
 
 
 </resources>

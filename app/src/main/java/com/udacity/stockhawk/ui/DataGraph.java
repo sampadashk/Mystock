@@ -46,6 +46,8 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     private static int LOADER_ID = 0;
 
 
+
+
     TextView tv;
     TextView stex;
     TextView lowst;
@@ -72,9 +74,9 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
 
-       tabLayout.addTab(tabLayout.newTab().setText("WEEKLY"));
-        tabLayout.addTab(tabLayout.newTab().setText("MONTHLY"));
-        tabLayout.addTab(tabLayout.newTab().setText("YEARLY"));
+       tabLayout.addTab(tabLayout.newTab().setText(R.string.week_title));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.months_title));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.year_title));
 
 
       //  tabLayout.setupWithViewPager(viewPager, true);
@@ -109,11 +111,10 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
     }
 
 
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
         if (data.moveToFirst()) {
-           // String tag="WEEKLY";
-
 
             String stockName = data.getString(Contract.Quote.POSITION_STOCK_NAME);
             getWindow().getDecorView().setContentDescription(
@@ -130,45 +131,54 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
             String his=data.getString(Contract.Quote.POSITION_DAY_HISTORY);
             setLineChart(his);
 
-            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    if(tab.getPosition()==0)
-                    {
-                        dateFormat="dd";
-                        String his=data.getString(Contract.Quote.POSITION_DAY_HISTORY);
-                        setLineChart(his);
+
+try {
+    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            if (tab.getPosition() == 0) {
+               tab.setContentDescription(R.string.tab_week);
+                dateFormat = "dd";
+                String his = data.getString(Contract.Quote.POSITION_DAY_HISTORY);
+                setLineChart(his);
 
 
-                    }
-                    else if(tab.getPosition()==1)
-                    {
-                        dateFormat="dd";
-                        String his = data.getString(Contract.Quote.POSITION_MONTH_HISTORY);
-                        setLineChart(his);
+            } else if (tab.getPosition() == 1) {
+                tab.setContentDescription(R.string.tab_month);
+                dateFormat = "dd";
+                String his = data.getString(Contract.Quote.POSITION_MONTH_HISTORY);
+                setLineChart(his);
 
 
-                    }
-                    else{
-                        dateFormat="yy";
-                        String his = data.getString(Contract.Quote.POSITION_YEAR_HISTORY);
-                        setLineChart(his);
+            } else {
+                tab.setContentDescription(R.string.tab_year);
+                dateFormat = "yy";
+                String his = data.getString(Contract.Quote.POSITION_YEAR_HISTORY);
+                setLineChart(his);
 
-                    }
+            }
 
 
-                }
+        }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
 
-                }
+        }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
 
-                }
-            });
+        }
+
+    });
+}
+catch(Exception e)
+            {
+                Log.d("Exception","" +e);
+
+            }
 
 
 
@@ -195,6 +205,12 @@ public class DataGraph extends AppCompatActivity implements LoaderManager.Loader
 
         }
     }
+    public void onStart()
+    {
+        super.onStart();
+
+    }
+
 
     private void setLineChart(String history) {
 

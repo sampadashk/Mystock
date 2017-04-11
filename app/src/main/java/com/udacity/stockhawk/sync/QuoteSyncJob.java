@@ -204,6 +204,7 @@ public final class QuoteSyncJob {
 
     private static void schedulePeriodic(Context context) {
         Timber.d("Scheduling a periodic task");
+        //Here we want stock data to be updated time to time so we are using JobService
 
 
         JobInfo.Builder builder = new JobInfo.Builder(PERIODIC_ID, new ComponentName(context, QuoteJobService.class));
